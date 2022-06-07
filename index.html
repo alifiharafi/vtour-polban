@@ -8,8 +8,11 @@
 <link rel="stylesheet" href="vendor/reset.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="multiple-scenes view-control-buttons">
-
+<body class="multiple-scenes">
+  <!--add-->
+  <video id="video" style="display: none;"></video>
+  <canvas id="handtrackj-prediction"></canvas>
+  <!---->
 <div id="pano"></div>
 
 <div id="sceneList">
@@ -159,6 +162,13 @@
   <img class="icon on" src="img/pause.png">
 </a>
 
+<!--added-->
+<a href="javascript:void(0)" id="webCamToggle">
+  <img class="icon off" src="img/web-cam.png">
+  <img class="icon on" src="img/show-web-cam.png">
+</a>
+<!---->
+
 <a href="javascript:void(0)" id="fullscreenToggle">
   <img class="icon off" src="img/fullscreen.png">
   <img class="icon on" src="img/windowed.png">
@@ -191,6 +201,10 @@
 <script src="vendor/screenfull.min.js" ></script>
 <script src="vendor/bowser.min.js" ></script>
 <script src="vendor/marzipano.js" ></script>
+
+<!-- add -->
+<script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
+<!---->
 
 <script src="data.js"></script>
 <script src="index.js"></script>
