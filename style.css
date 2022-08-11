@@ -828,3 +828,70 @@ body.view-control-buttons .viewControlButton {
 .viewControlButton-6 {
   margin-left: 105px;
 }
+
+/* add new style */
+#handtrackj-prediction{
+  display: none;
+  position: absolute;
+  height: 240px;
+  width: 320px;
+  top: 40px;
+  right:0;
+  box-shadow: -5px 5px 10px rgb(57, 64, 72);
+  background-color: rgba(103,115,131,0.8);
+  z-index: 1;
+}
+
+#webCamToggle {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 45px;
+  width: 45px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgb(103,115,131);
+  background-color: rgba(103,115,131,0.8);
+}
+
+.mobile #autorwebCamToggleotateToggle {
+  width: 50px;
+  height: 50px;
+}
+
+/* If there is a fullscreen button, autorotate must placed a bit to the left */
+body.fullscreen-enabled #webCamToggle {
+  right: 90px;
+}
+
+body.fullscreen-enabled.mobile #webCamToggle {
+  right: 90px;
+}
+
+#webCamToggle .icon {
+  top: 5px;
+  right: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile #webCamToggle .icon {
+  top: 10px;
+  right: 10px;
+}
+
+#webCamToggle .icon.on {
+  display: none;
+}
+
+#webCamToggle .icon.off {
+  display: block;
+}
+
+#webCamToggle.enabled .icon.on {
+  display: block;
+}
+
+#webCamToggle.enabled .icon.off {
+  display: none;
+}
