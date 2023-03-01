@@ -829,8 +829,8 @@ body.view-control-buttons .viewControlButton {
   margin-left: 105px;
 }
 
-/* add new style */
-#handtrackj-prediction{
+/* !Customize */
+#handtrackjs-area {
   display: none;
   position: absolute;
   height: 240px;
@@ -854,7 +854,8 @@ body.view-control-buttons .viewControlButton {
   background-color: rgba(103,115,131,0.8);
 }
 
-.mobile #autorwebCamToggleotateToggle {
+/* Unidentified yet */
+.mobile #autorotateWebCamToggle {
   width: 50px;
   height: 50px;
 }

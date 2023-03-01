@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 'use strict';
-// add
-// Variable tambahan untuk kebutuhan menghasilkan button dengna aksi deteksi tangan secara otomatis
+
+// !Customize
 let scenePos = 0;
-// pada handtrack, baru berhasil mendeteksi 3 gesture tangan, 
-let handLabelDataSet = ["closed","point","open"];
-// icon ini digunakan sebagai pengganti icon link, setiap icon button menyesuaikan dengan aksinya
-// urutan penyimpanan data dalam array ini penting. 
-// handLabelDataSet urutan ke-1 direpresentasikan iconnya pada imgSrcDataSet ke-1 juga
-let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
+let labelGesture = ["closed","point","open"];
+let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
 
 (function() {
   var Marzipano = window.Marzipano;
@@ -38,7 +34,8 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
   var sceneListToggleElement = document.querySelector('#sceneListToggle');
   var autorotateToggleElement = document.querySelector('#autorotateToggle');
   var fullscreenToggleElement = document.querySelector('#fullscreenToggle');
-  // add
+  
+  // !Customize
   var webCamToggleElement = document.querySelector('#webCamToggle');
 
   // Detect desktop or mobile mode.
@@ -82,8 +79,8 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
   var viewer = new Marzipano.Viewer(panoElement, viewerOpts);
 
   // Create scenes.
-  // add
-  let countH = 0;
+  // !Customize
+  let countHotspot = 0;
   
   var scenes = data.scenes.map(function(data) {
     var urlPrefix = "tiles";
@@ -101,13 +98,15 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
       view: view,
       pinFirstLevel: true
     });
-    countH = 0;
+
+    // !Customize
+    countHotspot = 0;
     data.linkHotspots.forEach(function(hotspot) {
       if(hotspot.hasOwnProperty("target")) {
-        var element = createLinkHotspotElement(data.id,hotspot,countH);
+        var element = createLinkHotspotElement(data.id,hotspot,countHotspot);
         scene.hotspotContainer().createHotspot(element, { yaw: hotspot.yaw, pitch: hotspot.pitch });
       }
-      countH = countH +1;
+      countHotspot = countHotspot + 1;
     });
 
     // Create info hotspots.
@@ -136,7 +135,7 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
   // Set handler for autorotate toggle.
   autorotateToggleElement.addEventListener('click', toggleAutorotate);
   
-  // add
+  // !Customize
   // Set handler for show webcame toggle.
   webCamToggleElement.addEventListener('click', toggleShowWebCam);
   
@@ -201,7 +200,7 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
   function sanitize(s) {
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
   }
-// add
+
   function switchScene(scene) {
     stopAutorotate();
     scene.view.setParameters(scene.data.initialViewParameters);
@@ -209,12 +208,13 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
     startAutorotate();
     updateSceneName(scene);
     updateSceneList(scene);
-// tambah update scene setiap kali switchscene dilankan
+
+    // !Customize: Update scene
     updateScenePos(scene);
   }
-// add
-// fungsi baru untuk mengupdate scenePos setiap kali berubah scene / gambar
-  function updateScenePos(scene){
+  
+  // !Customize
+  function updateScenePos(scene) {
     for (var i = 0; i < scenes.length; i++) {
       if (scenes[i].data.id === scene.data.id) {
         scenePos = i;
@@ -222,6 +222,7 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
       }
     }
   }
+  
   function updateSceneName(scene) {
     sceneNameElement.innerHTML = sanitize(scene.data.name);
   }
@@ -274,18 +275,19 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
       startAutorotate();
     }
   }
-// add
+
+  // !Customize
   function toggleShowWebCam() {
     if (webCamToggleElement.classList.contains('enabled')) {
       webCamToggleElement.classList.remove('enabled');
-      document.getElementById("handtrackj-prediction").style.display="none";
+      document.getElementById("handtrackjs-area").style.display="none";
     } else {
       webCamToggleElement.classList.add('enabled');
-      document.getElementById("handtrackj-prediction").style.display="block";
+      document.getElementById("handtrackjs-area").style.display="block";
     }
   }
 
-// add
+  // !Customize. Add new parameters: sceneName, buttonOrder
   function createLinkHotspotElement(sceneName,hotspot,buttonOrder) {
 
     // Create wrapper element to hold icon and tooltip.
@@ -293,18 +295,19 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
     wrapper.classList.add('hotspot');
     wrapper.classList.add('link-hotspot');
     
-// tambahkan deklarasi id untuk elemen tombol
+    // !Customize. Deklarasi ID untuk elemen tombol.
     wrapper.setAttribute("id",`from-${sceneName}-to-${hotspot.target}`);
 
     // Create image element.
     var icon = document.createElement('img');
+    // !Customize
     var imgSrc;
-    for (let i = 0; i <imgSrcDataSet.length ; i++) {
+    for (let i = 0; i <iconGesture.length ; i++) {
       if(i==buttonOrder){
-        imgSrc = imgSrcDataSet[i];
+        imgSrc = iconGesture[i];
       }
     }
-    icon.src = `img/${imgSrc}`;
+    icon.src = `img/${imgSrc}`; // End of !Customize
     icon.classList.add('link-hotspot-icon');
 
     // Set rotation transform.
@@ -442,8 +445,8 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
   // Display the initial scene.
   switchScene(scenes[0]);
   
-  // handtrack
-  // parameter default untuk membuka model yang disediakan handtrack.js
+  /* !Customize. Handtrack.js */
+  // Default Parameter of handtrack.js
     const modelParams = {
       flipHorizontal: false,
       outputStride: 16,
@@ -456,17 +459,18 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
       bboxLineWidth: "2",
       fontSize: 17,
   }
-  // mengakses webcame
+
+  // Web Camera Access
   navigator.getUserMedia = 
       navigator.getUserMedia || 
       navigator.webkitGetUserMedia || 
       navigator.mozGetUserMedia || 
       navigator.msGetUserMedia;
 
-// add
+  // !Customzie
   const video = document.querySelector("#video");
   let model;
-  // memasukkan hasil rekaman webcame ke elemen video
+  // Insert Web Camera Ouput to Video Element
   handTrack.startVideo(video)
       .then(status => {
           if(status){
@@ -478,83 +482,87 @@ let imgSrcDataSet = ["hand-close.png","hand-point.png","hand-open.png"];
               );
           }
       })
-// add
-  // fitur untuk menampilkan hasil prediksi dari webcame 
-const canvas = document.querySelector("#handtrackj-prediction");
-const context = canvas.getContext("2d");
-// add
-  // membuat data set untuk semua button pada setiap scene
-  // mengembalikan array of object
-  function creteButtonDataSet() {
 
-    let buttonDataSet=[];
-    let buttonIdSetTemp=[];
+  // Show Prediction to Web Camera 
+  const canvas = document.querySelector("#handtrackjs-area");
+  const context = canvas.getContext("2d");
+
+  // Create Dataset for All Buttons to Each Scene
+  // Return: Array of Object
+  function createButtonDataset() {
+    let buttonDataset = [];
+    let buttonIdSetTemp = [];
     let numberOfButton;
+
     for (let i = 0; i < scenes.length; i++) {
-      buttonIdSetTemp=[];
+      buttonIdSetTemp = [];
       numberOfButton = scenes[i].data.linkHotspots.length;
+      
       for (var j = 0; j < numberOfButton; j++) {
           buttonIdSetTemp.push(
             "from-"+scenes[i].data.id+"-to-"+scenes[i].data.linkHotspots[j].target
-          );
-        
+          );      
       }
-    buttonDataSet.push({buttonIdSet : buttonIdSetTemp});
+      buttonDataset.push({buttonIdSet : buttonIdSetTemp});
     }
-    return buttonDataSet;
+    
+    return buttonDataset;
   }
-  const buttonDataSet = creteButtonDataSet();
 
-  // mengambil model yang telah disediakan
+  const buttonDataset = createButtonDataset();
+
+  // Load Model
   handTrack.load(modelParams)
-      .then(lmodel => {
-          model = lmodel;
-      })
-  // otomatisasi klik button pada saat gesture tangan tertentu terdeteksi
+    .then(lmodel => {
+        model = lmodel;
+    })
 
-  // mengembalikan jumlah total button pada 1 scene yang sedang dibuka
-  function getTotalActiveButtonNow(){
+  // Action same as to Click Button using Detected Gesture
+
+  // Return Total Button on Current Scene
+  function getTotalActiveButtonNow() {
     return scenes[scenePos].data.linkHotspots.length;
   }
 
-  // mencocokkan gesture tangan yang diprediksi dengan button yang disediakan
-  function moveScene(predictionLabel){
+  // Match Predicted Gesture to Provided Button
+  function moveScene(predictionLabel) {
     const totalActiveButtonNow = getTotalActiveButtonNow();
     for (let i = 0; i < totalActiveButtonNow; i++) {
-      if(predictionLabel == handLabelDataSet[i]){
-        document.getElementById(buttonDataSet[scenePos].buttonIdSet[i]).click();
+      if(predictionLabel == labelGesture[i]){
+        document.getElementById(buttonDataset[scenePos].buttonIdSet[i]).click();
       }
     }
   }
 
-  // melakukan pengecekan apakah gesture tangan terdeteksi atau tidak
-  // mengembalikan true jika ya, dan false jika tidak 
+  // Gesture Detection Checking
   function isDetected(predictions){
     let isDetected = false;
-    if(predictions.length>0){
+    if(predictions.length > 0){
       isDetected = true;
     }
     return isDetected;
   }
+
+  /* Miscellaneous */
   const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
-  
-  /*Use like so*/
-  
+
   async function triggerMoveScene(prediction){ 
     moveScene(prediction);
-    await sleep(2000)
+    await sleep(2000);
   }
-  // melakukan prediksi dari rekaman video webcame
-  function runDetection(){
-      model.detect(video)
-          .then(predictions => {
-            model.renderPredictions(predictions,canvas,context,video);
-            if(isDetected(predictions)){
-              triggerMoveScene(predictions[0].label);
-              // moveScene(predictions[0].label);
-            }
-          });
+
+  // Run Detection from Web Camera
+  function runDetection() {
+    model.detect(video)
+      .then(predictions => {
+        model.renderPredictions(predictions,canvas,context,video);
+        if(isDetected(predictions)){
+          triggerMoveScene(predictions[0].label);
+          // moveScene(predictions[0].label);
+        }
+      });
   }
+
 })();
