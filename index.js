@@ -542,10 +542,10 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
     }
   }
 
-  // Display Information: Temporarily using "costly" approach
+  // Display Information on Current Scene
   function toggleInfo() {
-    console.log(document.querySelectorAll('.info-hotspot-header'));
-    let buttonInfo = document.querySelectorAll('.info-hotspot-header');
+    console.log(document.querySelectorAll('.info-hotspot[style*="display: block"] .info-hotspot-header'));
+    let buttonInfo = document.querySelectorAll('.info-hotspot[style*="display: block"] .info-hotspot-header');
 
     buttonInfo.forEach(btn => {
       btn.click();
