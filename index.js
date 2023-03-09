@@ -15,6 +15,10 @@
  */
 'use strict';
 
+/*** !Customize: Logging ***/
+var participantName = prompt("What's your name?");
+alert(`Thank you ${participantName} for participating in this research!`);
+
 // !Customize
 let scenePos = 0;
 let labelGesture = ["closed","point","open"];
@@ -441,11 +445,10 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
   }
 
 
-
   // Display the initial scene.
   switchScene(scenes[0]);
   
-  /* !Customize. Handtrack.js */
+  /*** !Customize. Handtrack.js ***/
   // Default Parameter of handtrack.js
     const modelParams = {
       flipHorizontal: false,
@@ -467,7 +470,7 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
       navigator.mozGetUserMedia || 
       navigator.msGetUserMedia;
 
-  // !Customzie
+  // !Customize
   const video = document.querySelector("#video");
   let model;
   // Insert Web Camera Ouput to Video Element
@@ -476,12 +479,15 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
           if(status){
               navigator.getUserMedia({video : {} }, stream => {
                   video.srcObject = stream;
-                  setInterval(runDetection,10);
-              },
-              err => console.log(error)
+                  setInterval(runDetection, 10);
+                },
+                err => console.log(error)
               );
           }
       })
+      /* .then(detection => {
+          alert(detection);
+      }) */;
 
   // Show Prediction to Web Camera 
   const canvas = document.querySelector("#handtrackjs-area");
@@ -544,25 +550,62 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
   }
 
   /* Miscellaneous */
-  const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
+  var previousLabel;
+  var countPreviousLabel = 0;
+  var limitPreviousLabel = 75;
 
-  async function triggerMoveScene(prediction){ 
-    moveScene(prediction);
-    await sleep(2000);
-  }
-
-  // Run Detection from Web Camera
   function runDetection() {
     model.detect(video)
       .then(predictions => {
         model.renderPredictions(predictions,canvas,context,video);
-        if(isDetected(predictions)){
-          triggerMoveScene(predictions[0].label);
-          // moveScene(predictions[0].label);
+
+        if(isDetected(predictions)) {
+          if(predictions[0].label != 'face') {
+            if(previousLabel == predictions[0].label) {
+              countPreviousLabel++;
+              console.log(previousLabel + ' : ' + countPreviousLabel);
+
+              if(countPreviousLabel > limitPreviousLabel) {
+                console.log(participantName + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
+                
+                moveScene(predictions[0].label);
+                
+                previousLabel = null;
+                countPreviousLabel = 0;
+              }
+            } else {
+              previousLabel = predictions[0].label;
+              countPreviousLabel = 0;
+            }
+          }
         }
+        
       });
   }
 
+  /* function runDetection() {
+    model.detect(video)
+      .then(predictions => {
+        model.renderPredictions(predictions,canvas,context,video);
+
+        if(isDetected(predictions)) {
+          if(predictions[0].label != 'face') {
+            if(previousLabel != predictions[0].label) {
+              console.log(previousLabel);
+              console.log(participantName + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
+              moveScene(predictions[0].label);
+              previousLabel = predictions[0].label;
+            } else {
+              countPreviousLabel++;
+              console.log(previousLabel + ' : ' + countPreviousLabel);
+              if(countPreviousLabel > limitPreviousLabel) {
+                previousLabel = null;
+                countPreviousLabel = 0; // reset counter
+              }
+            }
+          }
+        }
+        
+      });
+  } */
 })();
