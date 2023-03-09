@@ -16,13 +16,17 @@
 'use strict';
 
 /*** !Customize: Logging ***/
-var participantName = prompt("What's your name?");
+var participantName = null;
+while(!participantName) {
+  participantName = prompt("What's your name?");
+}
 alert(`Thank you ${participantName} for participating in this research!`);
+
 
 // !Customize
 let scenePos = 0;
-let labelGesture = ["closed","point","open"];
-let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
+let labelGesture = ["closed", "point", "open"];
+let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
 
 (function() {
   var Marzipano = window.Marzipano;
@@ -484,10 +488,7 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
                 err => console.log(error)
               );
           }
-      })
-      /* .then(detection => {
-          alert(detection);
-      }) */;
+      });
 
   // Show Prediction to Web Camera 
   const canvas = document.querySelector("#handtrackjs-area");
@@ -536,8 +537,19 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
     for (let i = 0; i < totalActiveButtonNow; i++) {
       if(predictionLabel == labelGesture[i]){
         document.getElementById(buttonDataset[scenePos].buttonIdSet[i]).click();
+        console.log(buttonDataset[scenePos].buttonIdSet[i]);
       }
     }
+  }
+
+  // Display Information: Temporarily using "costly" approach
+  function toggleInfo() {
+    console.log(document.querySelectorAll('.info-hotspot-header'));
+    let buttonInfo = document.querySelectorAll('.info-hotspot-header');
+
+    buttonInfo.forEach(btn => {
+      btn.click();
+    });
   }
 
   // Gesture Detection Checking
@@ -568,7 +580,11 @@ let iconGesture = ["hand-close.png","hand-point.png","hand-open.png"];
               if(countPreviousLabel > limitPreviousLabel) {
                 console.log(participantName + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
                 
-                moveScene(predictions[0].label);
+                if(predictions[0].label != 'pinch') {
+                  moveScene(predictions[0].label);
+                } else {
+                  toggleInfo();
+                }
                 
                 previousLabel = null;
                 countPreviousLabel = 0;
