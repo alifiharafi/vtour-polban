@@ -15,6 +15,13 @@
  */
 'use strict';
 
+/*** !Customize: Logging ***/
+var participantName = null;
+while(!participantName) {
+  participantName = prompt("What's your name?");
+}
+alert(`Thank you ${participantName} for participating in this research!`);
+
 (function() {
   var Marzipano = window.Marzipano;
   var bowser = window.bowser;
@@ -109,7 +116,8 @@
 
   // Set up autorotate, if enabled.
   var autorotate = Marzipano.autorotate({
-    yawSpeed: 0.03,
+    // yawSpeed: 0.03,
+    yawSpeed: 0.075, // !Customize
     targetPitch: 0,
     targetFov: Math.PI/2
   });
@@ -195,10 +203,13 @@
     sceneNameElement.innerHTML = sanitize(scene.data.name);
   }
 
+  /* !Customize */
+  var setLogCurrentScene;
   function updateSceneList(scene) {
     for (var i = 0; i < sceneElements.length; i++) {
       var el = sceneElements[i];
       if (el.getAttribute('data-id') === scene.data.id) {
+        setLogCurrentScene = scene.data.id;
         el.classList.add('current');
       } else {
         el.classList.remove('current');
@@ -263,9 +274,24 @@
       icon.style[property] = 'rotate(' + hotspot.rotation + 'rad)';
     }
 
+    /* !Customize */
     // Add click event handler.
     wrapper.addEventListener('click', function() {
+      let setLogPreviousScene = setLogCurrentScene;
       switchScene(findSceneById(hotspot.target));
+
+      // Push Log: Click Link
+      let logCaptureLink = {
+        "user": participantName,
+        "category": "Move Scene",
+        "scene_from": setLogPreviousScene,
+        "scene_to": hotspot.target,
+        "label": "link",
+        "timestamp_client": new Date().toISOString()
+      };
+      console.log(logCaptureLink);
+      // console.log(hotspot);
+      // alert(hotspot.target);
     });
 
     // Prevent touch and scroll events from reaching the parent element.
@@ -339,9 +365,22 @@
     modal.classList.add('info-hotspot-modal');
     document.body.appendChild(modal);
 
+    /* !Customize */
     var toggle = function() {
       wrapper.classList.toggle('visible');
       modal.classList.toggle('visible');
+      
+      // Push Log: Click Info
+      let logClickInfo = {
+        "user": participantName,
+        "category": "Display Info",
+        "scene_from": setLogCurrentScene,
+        "scene_to": null,
+        "label": "info",
+        "timestamp_client": new Date().toISOString()
+      };
+      console.log(logClickInfo);
+      // alert(wrapper.classList);
     };
 
     // Show content when hotspot is clicked.
