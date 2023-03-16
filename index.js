@@ -16,11 +16,12 @@
 'use strict';
 
 /*** !Customize: Logging ***/
-var participantName = null;
-while(!participantName) {
-  participantName = prompt("What's your name?");
+var participantIdentifier = null;
+while(!participantIdentifier) {
+  // participantIdentifier = prompt("What's your name?");
+  participantIdentifier = prompt("What's your POLBAN email?");
 }
-alert(`Thank you ${participantName} for participating in this research!`);
+alert(`Thank you ${participantIdentifier} for participating in this research!`);
 
 // !Customize: Reserve Logs
 var storeLog = {
@@ -289,7 +290,7 @@ var storeLog = {
 
       // Push Log: Click Link
       let logCaptureLink = {
-        "user": participantName,
+        "user": participantIdentifier,
         "category": "Move Scene",
         "scene_from": setLogPreviousScene,
         "scene_to": hotspot.target,
@@ -380,7 +381,7 @@ var storeLog = {
       
       // Push Log: Click Info
       let logClickInfo = {
-        "user": participantName,
+        "user": participantIdentifier,
         "category": "Display Info",
         "scene_from": setLogCurrentScene,
         "scene_to": null,
@@ -450,7 +451,7 @@ var storeLog = {
   function saveLog() {
     console.log(storeLog);
     
-    download(JSON.stringify(storeLog), "VTour_Mouse_" + participantName + ".json", "text/plain");
+    download(JSON.stringify(storeLog), "VTour_Mouse_" + participantIdentifier + ".json", "text/plain");
   }
 
 })();
