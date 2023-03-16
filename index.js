@@ -22,6 +22,12 @@ while(!participantName) {
 }
 alert(`Thank you ${participantName} for participating in this research!`);
 
+// !Customize: Reserve Logs
+var storeLog = {
+  type: "mouse",
+  logs: []
+};
+
 (function() {
   var Marzipano = window.Marzipano;
   var bowser = window.bowser;
@@ -230,6 +236,7 @@ alert(`Thank you ${participantName} for participating in this research!`);
   function toggleSceneList() {
     sceneListElement.classList.toggle('enabled');
     sceneListToggleElement.classList.toggle('enabled');
+    saveLog();
   }
 
   function startAutorotate() {
@@ -290,6 +297,7 @@ alert(`Thank you ${participantName} for participating in this research!`);
         "timestamp_client": new Date().toISOString()
       };
       console.log(logCaptureLink);
+      storeLog.logs.push(logCaptureLink);
       // console.log(hotspot);
       // alert(hotspot.target);
     });
@@ -380,6 +388,7 @@ alert(`Thank you ${participantName} for participating in this research!`);
         "timestamp_client": new Date().toISOString()
       };
       console.log(logClickInfo);
+      storeLog.logs.push(logClickInfo);
       // alert(wrapper.classList);
     };
 
@@ -427,5 +436,21 @@ alert(`Thank you ${participantName} for participating in this research!`);
 
   // Display the initial scene.
   switchScene(scenes[0]);
+
+  // Download JSON
+  // Reference: https://codesandbox.io/s/download-json-file-with-js-p9t1z
+  function download(content, fileName, contentType) {
+    const a = document.createElement("a");
+    const file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  function saveLog() {
+    console.log(storeLog);
+    
+    download(JSON.stringify(storeLog), "VTour_Mouse_" + participantName + ".json", "text/plain");
+  }
 
 })();
