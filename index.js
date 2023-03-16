@@ -361,7 +361,10 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
     var iconWrapper = document.createElement('div');
     iconWrapper.classList.add('info-hotspot-icon-wrapper');
     var icon = document.createElement('img');
-    icon.src = 'img/info.png';
+    /* !Costumize */
+    // icon.src = 'img/info.png';
+    icon.src = 'img/info-hand-pinch.png';
+    // icon.src = 'img/hand-pinch.png';
     icon.classList.add('info-hotspot-icon');
     iconWrapper.appendChild(icon);
 
