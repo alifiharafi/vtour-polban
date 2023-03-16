@@ -132,7 +132,8 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
 
   // Set up autorotate, if enabled.
   var autorotate = Marzipano.autorotate({
-    yawSpeed: 0.03,
+    // yawSpeed: 0.03,
+    yawSpeed: 0.075, // !Customize
     targetPitch: 0,
     targetFov: Math.PI/2
   });
