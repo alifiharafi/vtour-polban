@@ -18,7 +18,8 @@
 /*** !Customize: Logging ***/
 var participantName = null;
 while(!participantName) {
-  participantName = prompt("What's your name?");
+  // participantName = prompt("What's your name?");
+  participantName = prompt("What's your POLBAN email?");
 }
 alert(`Thank you ${participantName} for participating in this research!`);
 
