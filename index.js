@@ -235,10 +235,13 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
     sceneNameElement.innerHTML = sanitize(scene.data.name);
   }
 
+  /* !Customize */
+  var setLogCurrentScene;
   function updateSceneList(scene) {
     for (var i = 0; i < sceneElements.length; i++) {
       var el = sceneElements[i];
       if (el.getAttribute('data-id') === scene.data.id) {
+        setLogCurrentScene = el.getAttribute('data-id');
         el.classList.add('current');
       } else {
         el.classList.remove('current');
@@ -540,14 +543,15 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
     for (let i = 0; i < totalActiveButtonNow; i++) {
       if(predictionLabel == labelGesture[i]){
         document.getElementById(buttonDataset[scenePos].buttonIdSet[i]).click();
-        console.log(buttonDataset[scenePos].buttonIdSet[i]);
+        console.log(scenePos);
+        return buttonDataset[scenePos].buttonIdSet[i];
       }
     }
   }
 
   // Display Information on Current Scene
   function toggleInfo() {
-    console.log(document.querySelectorAll('.info-hotspot[style*="display: block"] .info-hotspot-header'));
+    // console.log(document.querySelectorAll('.info-hotspot[style*="display: block"] .info-hotspot-header'));
     let buttonInfo = document.querySelectorAll('.info-hotspot[style*="display: block"] .info-hotspot-header');
 
     buttonInfo.forEach(btn => {
@@ -578,16 +582,40 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
           if(predictions[0].label != 'face') {
             if(previousLabel == predictions[0].label) {
               countPreviousLabel++;
-              console.log(previousLabel + ' : ' + countPreviousLabel);
+              // Push Log: Detect Gesture
+              let logDetectGesture = {
+                "user": participantName,
+                "category": 'Detect Gesture',
+                "label": previousLabel,
+                "count": countPreviousLabel,
+                "timestamp_client": new Date().toISOString()
+              };
+              console.log(logDetectGesture);
 
               if(countPreviousLabel > limitPreviousLabel) {
-                console.log(participantName + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
+                // Push Log: Capture Gesture
+                let logCaptureGesture = {
+                  "user": participantName,
+                  "category": null,
+                  "scene_from": null,
+                  "scene_to": null,
+                  "label": predictions[0].label,
+                  "count": countPreviousLabel,
+                  "timestamp_client": new Date().toISOString()
+                };
                 
                 if(predictions[0].label != 'pinch') {
-                  moveScene(predictions[0].label);
+                  let logFromToScene = moveScene(predictions[0].label);
+                  logFromToScene = logFromToScene.substring(5).split("-to-");
+                  logCaptureGesture["category"]   = "Move Scene";
+                  logCaptureGesture["scene_from"] = logFromToScene[1];
+                  logCaptureGesture["scene_to"]   = logFromToScene[0];
                 } else {
                   toggleInfo();
+                  logCaptureGesture["scene_from"] = setLogCurrentScene;
+                  logCaptureGesture["category"] = "Display Info";
                 }
+                console.log(logCaptureGesture);
                 
                 previousLabel = null;
                 countPreviousLabel = 0;
