@@ -22,6 +22,11 @@ while(!participantName) {
 }
 alert(`Thank you ${participantName} for participating in this research!`);
 
+// !Customize: Reserve Logs
+var storeLog = {
+  type: "gesture",
+  logs: []
+};
 
 // !Customize
 let scenePos = 0;
@@ -263,6 +268,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
   function toggleSceneList() {
     sceneListElement.classList.toggle('enabled');
     sceneListToggleElement.classList.toggle('enabled');
+    saveLog();
   }
 
   function startAutorotate() {
@@ -544,7 +550,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
     for (let i = 0; i < totalActiveButtonNow; i++) {
       if(predictionLabel == labelGesture[i]){
         document.getElementById(buttonDataset[scenePos].buttonIdSet[i]).click();
-        console.log(scenePos);
+        // console.log(scenePos);
         return buttonDataset[scenePos].buttonIdSet[i];
       }
     }
@@ -591,6 +597,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
                 "count": countPreviousLabel,
                 "timestamp_client": new Date().toISOString()
               };
+              // storeLog.logs.push(logDetectGesture);
               console.log(logDetectGesture);
 
               if(countPreviousLabel > limitPreviousLabel) {
@@ -616,6 +623,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
                   logCaptureGesture["scene_from"] = setLogCurrentScene;
                   logCaptureGesture["category"] = "Display Info";
                 }
+                storeLog.logs.push(logDetectGesture);
                 console.log(logCaptureGesture);
                 
                 previousLabel = null;
@@ -656,4 +664,21 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
         
       });
   } */
+
+  // Download JSON
+  // Reference: https://codesandbox.io/s/download-json-file-with-js-p9t1z
+  function download(content, fileName, contentType) {
+    const a = document.createElement("a");
+    const file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  function saveLog() {
+    console.log(storeLog);
+    
+    download(JSON.stringify(storeLog), "VTour_Gesture_" + participantName + ".json", "text/plain");
+  }
+
 })();
