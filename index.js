@@ -16,12 +16,12 @@
 'use strict';
 
 /*** !Customize: Logging ***/
-var participantName = null;
-while(!participantName) {
-  // participantName = prompt("What's your name?");
-  participantName = prompt("What's your POLBAN email?");
+var participantIdentifier = null;
+while(!participantIdentifier) {
+  // participantIdentifier = prompt("What's your name?");
+  participantIdentifier = prompt("What's your POLBAN email?");
 }
-alert(`Thank you ${participantName} for participating in this research!`);
+alert(`Thank you ${participantIdentifier} for participating in this research!`);
 
 // !Customize: Reserve Logs
 var storeLog = {
@@ -592,7 +592,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
               countPreviousLabel++;
               // Push Log: Detect Gesture
               let logDetectGesture = {
-                "user": participantName,
+                "user": participantIdentifier,
                 "category": 'Detect Gesture',
                 "label": previousLabel,
                 "count": countPreviousLabel,
@@ -604,7 +604,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
               if(countPreviousLabel > limitPreviousLabel) {
                 // Push Log: Capture Gesture
                 let logCaptureGesture = {
-                  "user": participantName,
+                  "user": participantIdentifier,
                   "category": null,
                   "scene_from": null,
                   "scene_to": null,
@@ -649,7 +649,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
           if(predictions[0].label != 'face') {
             if(previousLabel != predictions[0].label) {
               console.log(previousLabel);
-              console.log(participantName + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
+              console.log(participantIdentifier + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
               moveScene(predictions[0].label);
               previousLabel = predictions[0].label;
             } else {
@@ -679,7 +679,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
   function saveLog() {
     console.log(storeLog);
     
-    download(JSON.stringify(storeLog), "VTour_Gesture_" + participantName + ".json", "text/plain");
+    download(JSON.stringify(storeLog), "VTour_Gesture_" + participantIdentifier + ".json", "text/plain");
   }
 
 })();
