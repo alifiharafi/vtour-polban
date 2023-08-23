@@ -22,7 +22,7 @@ var idParam = urlParams.get('id');
 
 while(!idParam) {
   idParam = prompt("What's your email?");
-  window.location = window.location.href + "?id=" + idParam;
+  // window.location = window.location.href + "?id=" + idParam;
 }
 alert(`Thank you ${idParam} for participating in this research!`);
 
@@ -272,7 +272,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
   function toggleSceneList() {
     sceneListElement.classList.toggle('enabled');
     sceneListToggleElement.classList.toggle('enabled');
-    saveLog();
+    // saveLog();
   }
 
   function startAutorotate() {
@@ -471,17 +471,17 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
   
   /*** !Customize. Handtrack.js ***/
   // Default Parameter of handtrack.js
-    const modelParams = {
-      flipHorizontal: false,
-      outputStride: 16,
-      imageScaleFactor: 1,
-      maxNumBoxes: 20,
-      iouThreshold: 0.2,
-      scoreThreshold: 0.6,
-      modelType: "ssd320fpnlite",
-      modelSize: "large",
-      bboxLineWidth: "2",
-      fontSize: 17,
+  const modelParams = {
+    flipHorizontal: false,
+    outputStride: 16,
+    imageScaleFactor: 1,
+    maxNumBoxes: 20,
+    iouThreshold: 0.2,
+    scoreThreshold: 0.6,
+    modelType: "ssd320fpnlite",
+    modelSize: "large",
+    bboxLineWidth: "2",
+    fontSize: 17,
   }
 
   // Web Camera Access
