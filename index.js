@@ -16,12 +16,15 @@
 'use strict';
 
 /*** !Customize: Logging ***/
-var participantIdentifier = null;
-while(!participantIdentifier) {
-  // participantIdentifier = prompt("What's your name?");
-  participantIdentifier = prompt("What's your email?");
+// Reference: https://stackoverflow.com/a/901144
+var urlParams = new URLSearchParams(window.location.search);
+var idParam = urlParams.get('id');
+
+while(!idParam) {
+  idParam = prompt("What's your email?");
+  window.location = window.location.href + "?id=" + idParam;
 }
-alert(`Thank you ${participantIdentifier} for participating in this research!`);
+alert(`Thank you ${idParam} for participating in this research!`);
 
 // !Customize: Reserve Logs
 var storeLog = {
@@ -290,7 +293,7 @@ var storeLog = {
 
       // Push Log: Click Link
       let logCaptureLink = {
-        "user": participantIdentifier,
+        "user": idParam,
         "category": "Move Scene",
         "scene_from": setLogPreviousScene,
         "scene_to": hotspot.target,
@@ -381,7 +384,7 @@ var storeLog = {
       
       // Push Log: Click Info
       let logClickInfo = {
-        "user": participantIdentifier,
+        "user": idParam,
         "category": "Display Info",
         "scene_from": setLogCurrentScene,
         "scene_to": null,
@@ -471,7 +474,7 @@ var storeLog = {
   function saveLog() {
     console.log(storeLog);
     
-    download(JSON.stringify(storeLog), "VTour_Mouse_" + participantIdentifier + ".json", "text/plain");
+    download(JSON.stringify(storeLog), "VTour_Mouse_" + idParam + ".json", "text/plain");
   }
 
 })();
