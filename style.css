@@ -904,3 +904,13 @@ body.fullscreen-enabled.mobile #webCamToggle {
 #webCamToggle.enabled .icon.off {
   display: none;
 }
+
+/* !Customize */
+.save-log { 
+  background: #00498d;
+}
+
+.save-log:hover { 
+  /* background: #0052a2 !important; */
+  background: #0062bf !important;
+}

@@ -16,12 +16,15 @@
 'use strict';
 
 /*** !Customize: Logging ***/
-var participantIdentifier = null;
-while(!participantIdentifier) {
-  // participantIdentifier = prompt("What's your name?");
-  participantIdentifier = prompt("What's your POLBAN email?");
+// Reference: https://stackoverflow.com/a/901144
+var urlParams = new URLSearchParams(window.location.search);
+var idParam = urlParams.get('id');
+
+while(!idParam) {
+  idParam = prompt("What's your email?");
+  window.location = window.location.href + "?id=" + idParam;
 }
-alert(`Thank you ${participantIdentifier} for participating in this research!`);
+alert(`Thank you ${idParam} for participating in this research!`);
 
 // !Customize: Reserve Logs
 var storeLog = {
@@ -592,7 +595,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
               countPreviousLabel++;
               // Push Log: Detect Gesture
               let logDetectGesture = {
-                "user": participantIdentifier,
+                "user": idParam,
                 "category": 'Detect Gesture',
                 "label": previousLabel,
                 "count": countPreviousLabel,
@@ -604,7 +607,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
               if(countPreviousLabel > limitPreviousLabel) {
                 // Push Log: Capture Gesture
                 let logCaptureGesture = {
-                  "user": participantIdentifier,
+                  "user": idParam,
                   "category": null,
                   "scene_from": null,
                   "scene_to": null,
@@ -649,7 +652,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
           if(predictions[0].label != 'face') {
             if(previousLabel != predictions[0].label) {
               console.log(previousLabel);
-              console.log(participantIdentifier + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
+              console.log(idParam + ' - ' + new Date().toISOString() + ' - ' + predictions[0].label);
               moveScene(predictions[0].label);
               previousLabel = predictions[0].label;
             } else {
@@ -666,6 +669,25 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
       });
   } */
 
+  // Scene List for Save Log
+  var custSceneList = document.querySelector('#sceneList .scenes');
+
+  var linkSaveLog   = document.createElement("a");
+  linkSaveLog.setAttribute("href", "javascript:void(0)");
+  linkSaveLog.setAttribute("class", "scene save-log");
+  linkSaveLog.setAttribute("id", "save-log");
+
+  var listSaveLog   = document.createElement("li");
+  listSaveLog.setAttribute("class", "text");
+  
+  var textSaveLog   = document.createTextNode("Save Log");
+  listSaveLog.appendChild(textSaveLog);
+  linkSaveLog.appendChild(listSaveLog);
+  custSceneList.appendChild(linkSaveLog);
+
+  var custSaveLog   = document.getElementById('save-log');
+  custSaveLog.addEventListener('click', saveLog);
+
   // Download JSON
   // Reference: https://codesandbox.io/s/download-json-file-with-js-p9t1z
   function download(content, fileName, contentType) {
@@ -679,7 +701,7 @@ let iconGesture = ["hand-close.png", "hand-point.png", "hand-open.png"];
   function saveLog() {
     console.log(storeLog);
     
-    download(JSON.stringify(storeLog), "VTour_Gesture_" + participantIdentifier + ".json", "text/plain");
+    download(JSON.stringify(storeLog), "VTour_Gesture_" + idParam + ".json", "text/plain");
   }
 
 })();
