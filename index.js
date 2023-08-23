@@ -22,7 +22,7 @@ var idParam = urlParams.get('id');
 
 while(!idParam) {
   idParam = prompt("What's your email?");
-  // window.location = window.location.href + "?id=" + idParam;
+  window.location = window.location.href + "?id=" + idParam;
 }
 alert(`Thank you ${idParam} for participating in this research!`);
 

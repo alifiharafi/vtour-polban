@@ -1,199 +1,224 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>VTour POLBAN</title>
+<title>VTour POLBAN - Gesture</title>
 <meta charset="utf-8">
 <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
 <style> @-ms-viewport { width: device-width; } </style>
 <link rel="stylesheet" href="vendor/reset.min.css">
 <link rel="stylesheet" href="style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5KXQT4RG5E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5KXQT4RG5E');
+</script>
 </head>
-<body class="multiple-scenes view-control-buttons">
+<body class="multiple-scenes">
+  <!-- S: !Customize -->
+  <video id="video" style="display: none;"></video>
+  <canvas id="handtrackjs-area"></canvas>
+  <!-- E: !Customize -->
+  <div id="pano"></div>
 
-<div id="pano"></div>
+  <div id="sceneList">
+    <ul class="scenes">
+      
+        <a href="javascript:void(0)" class="scene" data-id="0-1---gerbang-utama">
+          <li class="text">1 - Gerbang Utama</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="1-2---gedung-pendopo-tonny-soewandito---tampak-depan">
+          <li class="text">2 - Gedung Pendopo Tonny Soewandito - Tampak Depan</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="2-3---gedung-p2t-pengembangan-pendidikan-dan-teknologi">
+          <li class="text">3 - Gedung P2T (Pengembangan Pendidikan dan Teknologi)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="3-4---gedung-direktorat">
+          <li class="text">4 - Gedung Direktorat</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="4-5---gedung-pendopo-tonny-soewandito--tampak-samping-arah-selatan">
+          <li class="text">5 - Gedung Pendopo Tonny Soewandito -Tampak Samping (Arah Selatan)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="5-6---area-parkir-staff">
+          <li class="text">6 - Area Parkir Staff</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="6-7---persimpangan-1">
+          <li class="text">7 - Persimpangan (1)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="7-8---gedung-h-pascasarjana---halaman-depan">
+          <li class="text">8 - Gedung H (Pascasarjana) - Halaman Depan</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="8-9---gedung-h-pascasarjana---pintu-masuk-perpustakaan">
+          <li class="text">9 - Gedung H (Pascasarjana) - Pintu Masuk (Perpustakaan)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="9-11---gedung-jurusan-akuntansi">
+          <li class="text">11 - Gedung Jurusan Akuntansi</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="10-12---gedung-kuliah-baru-gkb">
+          <li class="text">12 - Gedung Kuliah Baru (GKB)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="11-13---persimpangan-2">
+          <li class="text">13 - Persimpangan (2)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="12-14---gedung-up-mku-unit-pelayanan-mata-kuliah-umum-dan-jurusan-bahasa-inggris">
+          <li class="text">14 - Gedung UP MKU (Unit Pelayanan Mata Kuliah Umum) dan Jurusan Bahasa Inggris</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="13-15---gedung-jurusan-teknik-komputer">
+          <li class="text">15 - Gedung Jurusan Teknik Komputer</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="14-16---persimpangan-3">
+          <li class="text">16 - Persimpangan (3)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="15-17---gedung-jurusan-elektro-mesin-energi-dan-refrigasi">
+          <li class="text">17 - Gedung Jurusan Elektro, Mesin, Energi, dan Refrigasi</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="16-18---persimpangan-4">
+          <li class="text">18 - Persimpangan (4)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="17-19---jalan-1">
+          <li class="text">19 - Jalan (1)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="18-20---gedung-a">
+          <li class="text">20 - Gedung A</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="19-21---jalan-2">
+          <li class="text">21 - Jalan (2)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="20-22---jalan-3">
+          <li class="text">22 - Jalan (3)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="21-23---gedung-lab-jurusan-teknik-listrik">
+          <li class="text">23 - Gedung Lab. Jurusan Teknik Listrik</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="22-24---gedung-lab-jurusan-teknik-elektronika">
+          <li class="text">24 - Gedung Lab. Jurusan Teknik Elektronika</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="23-25---gedung-lab-jurusan-teknik-sipil">
+          <li class="text">25 - Gedung Lab. Jurusan Teknik Sipil</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="24-26---gedung-lab-aeronautika">
+          <li class="text">26 - Gedung Lab. Aeronautika</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="25-27---jalan-4">
+          <li class="text">27 - Jalan (4)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="26-28---persimpangan-5">
+          <li class="text">28 - Persimpangan (5)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="27-29---jalan-5">
+          <li class="text">29 - Jalan (5)</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="28-30---gedung-h-pascasarjana---lantai-1">
+          <li class="text">30 - Gedung H (Pascasarjana) - Lantai 1</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="29-31---gedung-h-pascasarjana---lantai-5">
+          <li class="text">31 - Gedung H (Pascasarjana) - Lantai 5</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="30-32---gedung-h-pascasarjana---lantai-5---lorong">
+          <li class="text">32 - Gedung H (Pascasarjana) - Lantai 5 - Lorong</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="31-33---lab-teknologi-informasi">
+          <li class="text">33 - Lab. Teknologi Informasi</li>
+        </a>
+      
+        <a href="javascript:void(0)" class="scene" data-id="32-34---lab-artificial-intelligence">
+          <li class="text">34 - Lab. Artificial Intelligence</li>
+        </a>
+      
+    </ul>
+  </div>
 
-<div id="sceneList">
-  <ul class="scenes">
-    
-      <a href="javascript:void(0)" class="scene" data-id="0-1---gerbang-utama">
-        <li class="text">1 - Gerbang Utama</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="1-2---gedung-pendopo-tonny-soewandito---tampak-depan">
-        <li class="text">2 - Gedung Pendopo Tonny Soewandito - Tampak Depan</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="2-3---gedung-p2t-pengembangan-pendidikan-dan-teknologi">
-        <li class="text">3 - Gedung P2T (Pengembangan Pendidikan dan Teknologi)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="3-4---gedung-direktorat">
-        <li class="text">4 - Gedung Direktorat</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="4-5---gedung-pendopo-tonny-soewandito--tampak-samping-arah-selatan">
-        <li class="text">5 - Gedung Pendopo Tonny Soewandito -Tampak Samping (Arah Selatan)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="5-6---area-parkir-staff">
-        <li class="text">6 - Area Parkir Staff</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="6-7---persimpangan-1">
-        <li class="text">7 - Persimpangan (1)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="7-8---gedung-h-pascasarjana---halaman-depan">
-        <li class="text">8 - Gedung H (Pascasarjana) - Halaman Depan</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="8-9---gedung-h-pascasarjana---pintu-masuk-perpustakaan">
-        <li class="text">9 - Gedung H (Pascasarjana) - Pintu Masuk (Perpustakaan)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="9-11---gedung-jurusan-akuntansi">
-        <li class="text">11 - Gedung Jurusan Akuntansi</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="10-12---gedung-kuliah-baru-gkb">
-        <li class="text">12 - Gedung Kuliah Baru (GKB)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="11-13---persimpangan-2">
-        <li class="text">13 - Persimpangan (2)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="12-14---gedung-up-mku-unit-pelayanan-mata-kuliah-umum-dan-jurusan-bahasa-inggris">
-        <li class="text">14 - Gedung UP MKU (Unit Pelayanan Mata Kuliah Umum) dan Jurusan Bahasa Inggris</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="13-15---gedung-jurusan-teknik-komputer">
-        <li class="text">15 - Gedung Jurusan Teknik Komputer</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="14-16---persimpangan-3">
-        <li class="text">16 - Persimpangan (3)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="15-17---gedung-jurusan-elektro-mesin-energi-dan-refrigasi">
-        <li class="text">17 - Gedung Jurusan Elektro, Mesin, Energi, dan Refrigasi</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="16-18---persimpangan-4">
-        <li class="text">18 - Persimpangan (4)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="17-19---jalan-1">
-        <li class="text">19 - Jalan (1)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="18-20---gedung-a">
-        <li class="text">20 - Gedung A</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="19-21---jalan-2">
-        <li class="text">21 - Jalan (2)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="20-22---jalan-3">
-        <li class="text">22 - Jalan (3)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="21-23---gedung-lab-jurusan-teknik-listrik">
-        <li class="text">23 - Gedung Lab. Jurusan Teknik Listrik</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="22-24---gedung-lab-jurusan-teknik-elektronika">
-        <li class="text">24 - Gedung Lab. Jurusan Teknik Elektronika</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="23-25---gedung-lab-jurusan-teknik-sipil">
-        <li class="text">25 - Gedung Lab. Jurusan Teknik Sipil</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="24-26---gedung-lab-aeronautika">
-        <li class="text">26 - Gedung Lab. Aeronautika</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="25-27---jalan-4">
-        <li class="text">27 - Jalan (4)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="26-28---persimpangan-5">
-        <li class="text">28 - Persimpangan (5)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="27-29---jalan-5">
-        <li class="text">29 - Jalan (5)</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="28-30---gedung-h-pascasarjana---lantai-1">
-        <li class="text">30 - Gedung H (Pascasarjana) - Lantai 1</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="29-31---gedung-h-pascasarjana---lantai-5">
-        <li class="text">31 - Gedung H (Pascasarjana) - Lantai 5</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="30-32---gedung-h-pascasarjana---lantai-5---lorong">
-        <li class="text">32 - Gedung H (Pascasarjana) - Lantai 5 - Lorong</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="31-33---lab-teknologi-informasi">
-        <li class="text">33 - Lab. Teknologi Informasi</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="32-34---lab-artificial-intelligence">
-        <li class="text">34 - Lab. Artificial Intelligence</li>
-      </a>
-    
-  </ul>
-</div>
+  <div id="titleBar">
+    <h1 class="sceneName"></h1>
+  </div>
 
-<div id="titleBar">
-  <h1 class="sceneName"></h1>
-</div>
+  <a href="javascript:void(0)" id="autorotateToggle">
+    <img class="icon off" src="img/play.png">
+    <img class="icon on" src="img/pause.png">
+  </a>
 
-<a href="javascript:void(0)" id="autorotateToggle">
-  <img class="icon off" src="img/play.png">
-  <img class="icon on" src="img/pause.png">
-</a>
+  <!-- S: !Customize -->
+  <a href="javascript:void(0)" id="webCamToggle">
+    <img class="icon off" src="img/web-cam.png">
+    <img class="icon on" src="img/show-web-cam.png">
+  </a>
+  <!-- E: !Customize -->
 
-<a href="javascript:void(0)" id="fullscreenToggle">
-  <img class="icon off" src="img/fullscreen.png">
-  <img class="icon on" src="img/windowed.png">
-</a>
+  <a href="javascript:void(0)" id="fullscreenToggle">
+    <img class="icon off" src="img/fullscreen.png">
+    <img class="icon on" src="img/windowed.png">
+  </a>
 
-<a href="javascript:void(0)" id="sceneListToggle">
-  <img class="icon off" src="img/expand.png">
-  <img class="icon on" src="img/collapse.png">
-</a>
+  <a href="javascript:void(0)" id="sceneListToggle">
+    <img class="icon off" src="img/expand.png">
+    <img class="icon on" src="img/collapse.png">
+  </a>
 
-<a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
-  <img class="icon" src="img/up.png">
-</a>
-<a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
-  <img class="icon" src="img/down.png">
-</a>
-<a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
-  <img class="icon" src="img/left.png">
-</a>
-<a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
-  <img class="icon" src="img/right.png">
-</a>
-<a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
-  <img class="icon" src="img/plus.png">
-</a>
-<a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
-  <img class="icon" src="img/minus.png">
-</a>
+  <a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
+    <img class="icon" src="img/up.png">
+  </a>
+  <a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
+    <img class="icon" src="img/down.png">
+  </a>
+  <a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
+    <img class="icon" src="img/left.png">
+  </a>
+  <a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
+    <img class="icon" src="img/right.png">
+  </a>
+  <a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
+    <img class="icon" src="img/plus.png">
+  </a>
+  <a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
+    <img class="icon" src="img/minus.png">
+  </a>
 
-<script src="vendor/screenfull.min.js" ></script>
-<script src="vendor/bowser.min.js" ></script>
-<script src="vendor/marzipano.js" ></script>
+  <script src="vendor/screenfull.min.js" ></script>
+  <script src="vendor/bowser.min.js" ></script>
+  <script src="vendor/marzipano.js" ></script>
 
-<script src="data.js"></script>
-<script src="index.js"></script>
+  <!-- S: !Customize -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script> -->
+  <!-- <script src="vendor/handtrack.min.js"></script> -->
+  <script src="vendor/handtrack-mod.min.js"></script>
+  <!-- E: !Customize -->
+
+  <script src="data.js"></script>
+  <script src="index.js"></script>
 
 </body>
 </html>
