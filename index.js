@@ -19,7 +19,7 @@
 var participantIdentifier = null;
 while(!participantIdentifier) {
   // participantIdentifier = prompt("What's your name?");
-  participantIdentifier = prompt("What's your POLBAN email?");
+  participantIdentifier = prompt("What's your email?");
 }
 alert(`Thank you ${participantIdentifier} for participating in this research!`);
 
@@ -237,7 +237,7 @@ var storeLog = {
   function toggleSceneList() {
     sceneListElement.classList.toggle('enabled');
     sceneListToggleElement.classList.toggle('enabled');
-    saveLog();
+    // saveLog();
   }
 
   function startAutorotate() {
@@ -437,6 +437,26 @@ var storeLog = {
 
   // Display the initial scene.
   switchScene(scenes[0]);
+
+  // Scene List for Save Log
+  var custSceneList = document.querySelector('#sceneList .scenes');
+
+  var linkSaveLog   = document.createElement("a");
+  linkSaveLog.setAttribute("href", "javascript:void(0)");
+  linkSaveLog.setAttribute("class", "scene save-log");
+  linkSaveLog.setAttribute("id", "save-log");
+
+  var listSaveLog   = document.createElement("li");
+  listSaveLog.setAttribute("class", "text");
+  
+  var textSaveLog   = document.createTextNode("Save Log");
+  listSaveLog.appendChild(textSaveLog);
+  linkSaveLog.appendChild(listSaveLog);
+  custSceneList.appendChild(linkSaveLog);
+
+  var custSaveLog   = document.getElementById('save-log');
+  custSaveLog.addEventListener('click', saveLog);
+
 
   // Download JSON
   // Reference: https://codesandbox.io/s/download-json-file-with-js-p9t1z
